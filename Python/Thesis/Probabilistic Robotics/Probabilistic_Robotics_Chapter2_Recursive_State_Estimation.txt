@@ -1,0 +1,32 @@
+Probabilistic_Robotics_Chapter2_Recursive_State_Estimation
+
+At the core of probabilistic robotics is the idea of estimating state from sensor data. State estimation addresses the problem of estimating quantities from sensor data that are not directly observable, but can be inferred. Sensors carry only partial information about these quantities and their measurements are corrupted by noise. 
+
+Sensor measurements, controls and the states of the robot and its environment are modeled as random variables. Probabilistic inference is the process of calculating these laws for random variables that are derived from other random variables and the observed data. Note that the books assumes that all random variables possess probability density functions. The most common pdf is the normal distribution, which are functions of a single value, while normal distributions about a vector are called multivariate. PDF area sums to one, we get joint distributions, conditional probabilities and independent random variables. Theorem of total probability, Bayes rule plays a predominant role in probabilistic robotics. Noting that the denominator of Bayes rule is taken as a normalizer in Bayes rule variables. Random variable also have expectations. The covariance matrix of random variable is important to the distribution. Entropy is a value of a probability distribution Hp = expectation(-log2(p(x)). Entropy is the expected information that the value of x carries. Within this book entropy is used to express the information a robot may receive upon executing specific actions.
+
+Robot Environment Interaction. The environment possesses internal state which is acquired by the robot through its sensors, yet sensors are noisy. Due to these noisy measurements, the robot maintains an internal belief with regards to the state of its environment. The robot has the ability to influence its environment through actuators, which change both the environment state as well as the robot's internal belief.
+A state is a collection of all aspects of the robot and its environment that can impact the future. Both people and building walls may be seen as state variables. People are dynamic state variables and walls are static state variables. States also include the robot itself, pose, velocity.
+Pose of a robot is its location and orientation relative to a global coordinate frame. [2-D, x y theta][3-D, x y z pitch roll yaw]
+Kinematic state of a robot is comprised of the entire robot configuration at any point in time.
+Dynamic state refers to the robot velocity and the velocity of its joints. The dynamic state represents the velocity of each degree of freedom.
+Location and feature of surrounding objects in the environment are also state variables.
+Completeness entails that knowledge of past states, measurements or controls carry no additional information that would help us predict the future more accurately.
+Temporal processes that meet these conditions are known as Markov chains.
+
+Environment Interaction:
+Perception is the process by which the robot uses its sensors to obtain information about the state of its environment. The robot might take a range scan or capture an image. This interaction is called a measurement or observation.
+control actions change the state of the world by asserting forces on the robot's environment.
+Data is the collection of  all past sensor measurements and control actions. Environment measurement data provides information about a momentary state of the environment at a specific time zt.
+
+Probabilistic Generative Laws:
+The evolution of state and measurements is governed by probabilistic laws. The state xt is generated stochastically from the state xt-1, thus one specifies the probability distribution grom which xt is generated. p(xt | x0:t-1, z1:t-1, u1:t), if x is complete then it is a sufficient summary of all that happened on previous time steps. Thus only the control ut matters if we know the state xt-1. p(xt | xt-1,ut) this is known as the state transition probability.
+p(zt | | x0:t, z1:t-1, u1:t) = p(zt | xt) which says the the state xt is sufficient to predict the measurement zt, this is known as the measurement probability. Together, the state transition probability and the measurement probability describe the dynamical stochastic system of the robot and its environment.  The models used to describe the above temporal states are the hidden markov model or dynamic bayes network.
+
+Belief Distributions:
+The belief represents the robots internal knowledge about the state of the environment. These beliefs are represented through conditional probability distributions. These distributions are posterior probabilities over the state variables conditioned on the available data. Belief(xt) = p(xt | z1:t,u1:t). This posterior is the probability distribution over the state xt at time t, conditioned on all past measurements z1:t and all past controls u1:t. 
+BeliefBar(xt) = p(xt | z1:t-1,u1:t), this is referred to as prediction in the context of probabilistic filtering. Calculating belief(xt) from beliefbar(xt) is called correction of the measurement update.
+
+Bayes Filters:
+This is the most general algorithm for calculating beliefs. This algorithm calculates belief(xt) from measurement and control data.
+
+**  The remainder of this chapter is examples  **

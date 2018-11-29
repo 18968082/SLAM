@@ -1,0 +1,11 @@
+Probabilistic_Robotics_Chapter1_Introduction
+
+Robotics systems are situated in the physical world, perceive their environments through sensors, and manipulate their environment through things that move. The robot software must be robust enough to cope with a range of situations, often too many to anticipate. The goal is to develop robust software that enables robots to withstand numerous challenges that arise in unstructured and dynamic environments. 
+Uncertainty is a key element of robotics and it arises from five different factors:
+	Environments. Physical worlds are inherently unpredictable, which is due to them being highly dynamic and ever changing.
+	Sensors. Sensors are inherently limited in what they can perceive. They are limited by range and resolution capabilities of the sensor. They are also subject to noise, which causes unpredictable anomalies within the measurements thus limiting the information that can be extracted from them.
+	Robots. Robot actuation involves physical hardware like motors, which to some extent are unpredictable due to control noise and ware and tear.
+	Models. Models are abstractions of the real world, which only partially model the underlying physical processes of the robot and its environment.
+	Computation.  Due to robots being real-time systems, this limits the amount of computation that can be carried out before an action must be taken.
+	
+Instead of taking a single guess as to what the world around might be, and rather represent this information as a probability distribution.

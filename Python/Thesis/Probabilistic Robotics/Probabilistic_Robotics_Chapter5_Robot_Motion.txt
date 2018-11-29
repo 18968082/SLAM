@@ -1,0 +1,28 @@
+Probabilistic_Robotics_Chapter5_Robot_Motion
+
+The remaining components for a SLAM implementation are the motion and measurement models. The motion models comprise the state transition probability p(xt | ut,xt-1) which plays an essential role in the prediction step of the bayes filter. Probabilistic robotics generalizes kinematic equations to the fact that the outcome of a control is uncertain due to control noise or unmodeled exogenous effects. An outcome for a control will be described by a posterior probability. The more sophisticated probabilistic models of robot dynamics remain unexplored in the literature. In theory the goal of a proper probabilistic model may appear to accurately model the specific types of uncertainty that exist in the robot actuation and perception.
+
+Kinematic Configuration
+Kinematics is the calculus describing the effect of control actions on the configuration of a robot. The configuration of a rigid mobile robot is commonly described by six variables, three-dimensional Cartesian coordinates and three euler angles relative to an external coordinate frame, (x y z roll pitch yaw). This chapter focusses on planar environments with only three degrees of freedom, (x y theta). Bearing or heading direction are related to the orientation of a robot, which is the direction in which the robot where to move if it were to simply move forward. Pose without orientation is called location
+
+Probabilistic Kinematics
+The probabilistic kinematic model or motion model plays the role of the state transition model, p(xt | ut,xt-1). Here xt and xt-1 are both robot poses and ut is a motion command. This model describes the posterior distribution over kinematic states that a robot assumes when executing the motion command ut at xt-1. In implementations, ut is provided by a robot’s odometry.  There are graphs which illustrate the posterior pose probability onto an x-y-space. The further a robot travels form the initial starting point the larger the spread of uncertainty of its actual pose. There are two types of motion information presented in this chapter being velocity based and odometry information. Odometry models tend to be more accurate than velocity based models due to robots not executing velocity commands with the level of accuracy that can be obtained by measuring the revolution of a robot’s wheel. Odometry models are used for estimation and velocity models are used for probabilistic motion planning.
+
+Velocity model
+The velocity motion model assumes that we can control a robot through two velocities a rotational and a translational velocity. Drive trains commonly controlled in this way include differential drives, synchro-drives and Ackerman drives. ut = (vt,wt) which is the translational and rotational velocities. The closed form calculation of the probability p(xt | ut,xt-1) is depicted in table 5.1. It accepts as input an initial pose xt-1 = (x y theat)Transpose, a control ut = (v w)Transpose and a hypothesized successor pose xt = (x’ y’ theta’)Transpose. It outputs the probability p(xt | ut,xt-1) of being at xt after executing ut beginning in state xt-1, assuming the control is carried out for the fixed duration delta(t). The motion error of the robot is modelled using a zero-centred random variable with some defined variance. The models used are either the normal distribution or the triangular distribution. Refer to tables 5.1 and 5.2 for an implementation of this algorithm choice.
+Sampling Algorithm:
+Instead of generating the entire posterior for arbitrary xt, ut and xt-1 a single xt is drawn according to the motion model p(xt | ut,xt-1). This algorithm is presented in table 5.3
+
+Odometry Motion Model
+Odometry is commonly obtained by integrating wheel encoder information. Both methods suffer from drift and slippage, but velocity additionally suffers from mismatch between actual motion controllers and its mathematical model. However, odometry is only available after the robot has moved, which makes this information unusable for accurate motion planning and control.
+Closed Form Calculation
+Odometry information are sensor measurements and not controls, yet to keep the state space small. At time t, the correct pose of the robot is modelled by the random variable xt. The robot odometry estimates this pose, however due to drift and slippage there is no fixed coordinate transformation between the coordinates used by the robot’s internal odometry and the physical world coordinates. The odometry model uses the relative motion information as measured by the robots internal odometry. More specifically, in the time interval (t-1,t] the robot advances from xBar t-1 to xBar t. The bar indicates that these are odometry measurements embedded in a robot-internal coordinate whose relation to the global world coordinates is unknown.
+The information ut = (xBar t-I, xBar t). To extract relative odometry, ut is transformed into a sequence of three steps, a rotation, a straight line motion and another rotation.
+*finish
+Sampleing
+*finish
+Mathematical Derivation of the odometry motion model
+The relative motion between two poses is represented by the concatenation of three basic motions: a rotation, a translation, a rotation. Look at 5.34 – 5.36 for these equations. The true values of the rotation and translation are obtained from the measures ones by subtracting independent noise with zero mean and variance b^2, represented by equations 5.37 – 5.39. These equations are implemented in the sample_motion_model_algorithm. The difference presented by 5.41-5.43 is the error in odometry, assuming that xt is the true final position.
+
+Motion maps
+
